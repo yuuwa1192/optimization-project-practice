@@ -1,0 +1,10 @@
+{
+    "experiment_name": "start_left_top",
+    "seed": 0,
+    "max_iterations": 100,
+    "initial_x": -4.0,
+    "initial_y": 4.0,
+    "step_size": 0.5,
+    "n_neighbors": 20,
+    "output_directory": "results"
+}
