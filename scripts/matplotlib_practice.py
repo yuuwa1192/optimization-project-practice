@@ -1,30 +1,35 @@
+import pandas as pd
 import matplotlib.pyplot as plt
 
-# x軸
-x = [0, 1, 2, 3, 4]
+# CSV読み込み
+df1 = pd.read_csv("results/start_left_top.csv")
+df2 = pd.read_csv("results/start_right_bottom.csv")
 
-# データ2種類
-y1 = [10, 8, 6, 5, 3]
-y2 = [3, 4, 6, 8, 11]
+# グラフ作成
+plt.figure()
 
 # 1本目
-plt.plot(x, y1, label="Data1", marker="o")
+plt.plot(df1["iteration"], df1["value"], label="start_left_top", marker="o")
 
 # 2本目
-plt.plot(x, y2, label="Data2", marker="s")
+plt.plot(df2["iteration"], df2["value"], label="start_right_bottom", marker="s")
 
-# ラベル
-plt.xlabel("x")
-plt.ylabel("y")
+# ラベル（←ここ重要）
+plt.xlabel("iteration", fontsize=14)
+plt.ylabel("value", fontsize=14)
 
 # タイトル
-plt.title("Two Lines Plot")
+plt.title("Convergence of Hill Climbing", fontsize=16)
 
-# 凡例（超重要）
-plt.legend()
+# 目盛りのサイズ
+plt.xticks(fontsize=12)
+plt.yticks(fontsize=12)
+
+# 凡例
+plt.legend(fontsize=12)
 
 # 保存
-plt.savefig("results/practice_plot.png")
+plt.savefig("results/convergence.png")
 
 # 表示
 plt.show()
