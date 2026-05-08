@@ -17,10 +17,8 @@ def load_config(config_path):
     """
     JSON形式の設定ファイルを読み込む関数
     """
-
     with open(config_path, "r", encoding="utf-8") as f:
         config = json.load(f)
-
     return config
 
 
@@ -29,31 +27,35 @@ def main():
     最適化実験を実行するメイン処理
     """
 
-    # 設定ファイルのパス
-    config_path = PROJECT_ROOT / "settings" / "config.json"
+    # 🔴 引数チェック（これが今回の重要修正）
+    if len(sys.argv) < 2:
+        print("設定ファイルを指定してください")
+        print("例: python3 scripts/run.py settings/config_start_left_top.json")
+        sys.exit()
+
+    # 🔴 コマンドライン引数から設定ファイル取得
+    config_path = PROJECT_ROOT / sys.argv[1]
 
     # 設定ファイルを読み込む
     config = load_config(config_path)
 
-    # 山登り法のインスタンスを作成する
+    # 山登り法のインスタンスを作成
     optimizer = HillClimber(config)
 
-    # 山登り法を実行する
+    # 実行
     history = optimizer.run()
 
-    # 実験結果をDataFrameに変換する
+    # DataFrameに変換
     df = pd.DataFrame(history)
 
     # 出力先フォルダ
     output_directory = PROJECT_ROOT / config["output_directory"]
-
-    # 出力先フォルダが存在しない場合は作成する
     output_directory.mkdir(exist_ok=True)
 
-    # 実験名を使ってCSVファイル名を作成する
+    # 🔴 ファイル名はconfigごとに変わる（ここ重要）
     output_path = output_directory / f"{config['experiment_name']}.csv"
 
-    # CSVファイルとして保存する
+    # 保存
     df.to_csv(output_path, index=False)
 
     print("実験が完了しました．")
